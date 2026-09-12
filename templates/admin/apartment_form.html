@@ -1,0 +1,43 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ 'Edit' if listing else 'Add' }} apartment{% endblock %}
+{% block topbar_title %}{{ 'Edit' if listing else 'Add' }} apartment{% endblock %}
+{% block content %}
+
+<h1 class="admin-h1">{{ 'Edit' if listing else 'Add' }} apartment listing</h1>
+
+<form class="admin-form" method="POST">
+  <div class="field">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required value="{{ listing.name if listing else '' }}">
+  </div>
+
+  <div class="field">
+    <label for="slug">Slug</label>
+    <input type="text" id="slug" name="slug" required value="{{ listing.slug if listing else '' }}">
+    <p class="field-hint">Short, no spaces (e.g. <code>studio</code>, <code>onebed</code>). Used in the "Register interest" link for this apartment.</p>
+  </div>
+
+  <div class="field">
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="4" required>{{ listing.description if listing else '' }}</textarea>
+  </div>
+
+  <div class="field">
+    <label for="features">Features</label>
+    <input type="text" id="features" name="features" value="{{ listing.features if listing else '' }}">
+    <p class="field-hint">Comma-separated, e.g. <code>Fully furnished, Bills included, Private balcony</code></p>
+  </div>
+
+  <div class="field">
+    <label for="image_filename">Image filename</label>
+    <input type="text" id="image_filename" name="image_filename" value="{{ listing.image_filename if listing else '' }}">
+    <p class="field-hint">Must match a file already uploaded to <code>static/images/</code> (e.g. <code>apartment-studio.jpg</code>).</p>
+  </div>
+
+  <div class="admin-form-actions">
+    <button type="submit" class="btn-admin-primary">{{ 'Save changes' if listing else 'Add apartment' }}</button>
+    <a href="{{ url_for('admin_apartments') }}" class="text-link-admin">Cancel</a>
+  </div>
+</form>
+
+{% endblock %}

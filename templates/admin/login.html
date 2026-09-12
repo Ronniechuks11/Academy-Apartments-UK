@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Academy Apartments</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}?v={{ asset_version }}">
+</head>
+<body class="login-body">
+
+<div class="login-shell">
+  <aside class="login-visual">
+    <div class="login-visual-inner">
+      <div class="admin-brand login-brand">
+        <span class="brand-mark">AA</span>
+        <span>Academy Apartments</span>
+      </div>
+      <h1 class="login-visual-title">Manage the site from one place.</h1>
+      <p class="login-visual-sub">Listings, enquiries and site activity — everything the
+        team needs to run Academy Apartments online.</p>
+      <ul class="login-visual-list">
+        <li>Edit apartment listings without touching code</li>
+        <li>See every enquiry as it comes in</li>
+        <li>Track sign-in activity for the account</li>
+      </ul>
+    </div>
+    <div class="login-visual-address">17 Warwick Road, Old Trafford, Manchester, M16 0RZ</div>
+  </aside>
+
+  <main class="login-main">
+    <form class="login-card" method="POST" action="{{ url_for('admin_login') }}">
+      <p class="login-eyebrow">Admin</p>
+      <h2>Sign in</h2>
+      {% if error %}<p class="login-error">{{ error }}</p>{% endif %}
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autofocus autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn-admin-primary btn-admin-full">Sign in</button>
+      <p class="login-footnote">Every sign-in attempt is recorded for this account.</p>
+    </form>
+  </main>
+</div>
+
+</body>
+</html>

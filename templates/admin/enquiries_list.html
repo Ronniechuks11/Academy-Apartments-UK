@@ -1,0 +1,50 @@
+{% extends 'admin/base.html' %}
+{% block title %}Enquiries{% endblock %}
+{% block topbar_title %}Enquiries{% endblock %}
+{% block content %}
+
+<h1 class="admin-h1">Enquiries</h1>
+
+<div class="admin-panel">
+  {% if entries %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Name</th><th>Contact</th><th>Apartment</th><th>I am a</th>
+        <th>Move-in</th><th>Message</th><th>Submitted</th><th>Status</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in entries %}
+      <tr>
+        <td>{{ e.full_name }}</td>
+        <td>{{ e.email }}{% if e.phone %}<br>{{ e.phone }}{% endif %}</td>
+        <td>{{ e.apartment_type }}</td>
+        <td>{{ e.applicant_type }}</td>
+        <td>{{ e.move_date or '—' }}</td>
+        <td class="admin-cell-message">{{ e.message or '—' }}</td>
+        <td>{{ e.created_at.strftime('%d %b %Y') }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('admin_enquiry_toggle', enquiry_id=e.id) }}">
+            <button type="submit" class="badge-button">
+              {% if e.contacted %}<span class="badge badge-done">Contacted</span>
+              {% else %}<span class="badge badge-new">New</span>{% endif %}
+            </button>
+          </form>
+        </td>
+        <td>
+          <form method="POST" action="{{ url_for('admin_enquiry_delete', enquiry_id=e.id) }}"
+                onsubmit="return confirm('Delete this enquiry?');">
+            <button type="submit" class="text-link-admin text-link-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="admin-empty">No enquiries yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

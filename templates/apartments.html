@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add('js');</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apartments — Studio & One-Bedroom Options | Academy Apartments</title>
+<meta name="description" content="Explore the studio and one-bedroom apartments at Academy Apartments, Warwick Road, Old Trafford — official accommodation partner of UA92.">
+{% set og_title = "Apartments — Academy Apartments, Old Trafford" %}
+{% set og_description = "Explore the studio and one-bedroom apartments at Academy Apartments, Warwick Road, Old Trafford." %}
+{% include 'partials/head-meta.html' %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ asset_version }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/apartments.css') }}?v={{ asset_version }}">
+</head>
+<body>
+
+<header class="site-header is-scrolled" id="siteHeader">
+  <div class="header-inner">
+    <a href="{{ url_for('index') }}" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M4 21V9.5L12 4l8 5.5V21" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9.5 21v-6.5h5V21" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 11.5h.01M16 11.5h.01" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-name">
+        <span class="brand-line1">Academy</span>
+        <span class="brand-line2">Apartments</span>
+      </span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="{{ url_for('apartments') }}">Apartments</a>
+      <a href="{{ url_for('index') }}#location">Location</a>
+      <a href="{{ url_for('index') }}#amenities">Amenities</a>
+      <a href="{{ url_for('index') }}#reviews">Residents</a>
+      <a href="{{ url_for('register_interest') }}" class="nav-cta">Register Interest</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="apt-banner">
+    <div class="apt-banner-inner">
+      <p class="apt-eyebrow">Apartments</p>
+      <h1>Two ways to live on Warwick Road.</h1>
+      <p class="apt-sub">Every apartment is fully furnished with sustainable heating, hyperfast Wi-Fi
+        and a 24-hour maintenance team on call. Pick a type below to register your interest in it directly.</p>
+    </div>
+  </section>
+
+  <section class="apt-list">
+    {% for listing in listings %}
+    <article class="apt-card">
+      <div class="apt-media">
+        <img src="{{ url_for('static', filename='images/' ~ listing.image_filename) }}" alt="{{ listing.name }} interior" loading="lazy">
+      </div>
+      <div class="apt-info">
+        <h2>{{ listing.name }}</h2>
+        <p>{{ listing.description }}</p>
+        <ul class="apt-features">
+          {% for feature in listing.feature_list %}
+          <li>{{ feature }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{{ url_for('register_interest', type=listing.slug) }}" class="btn-premium btn-premium-primary"><span>Register interest in this apartment</span></a>
+      </div>
+    </article>
+    {% endfor %}
+
+    <article class="apt-card apt-card-muted">
+      <div class="apt-info apt-info-centered">
+        <h2>Not sure which one yet?</h2>
+        <p>Register your interest anyway and let the team know what you're after —
+          they'll help you find the right fit.</p>
+        <a href="{{ url_for('register_interest', type='unsure') }}" class="btn-premium btn-premium-ghost"><span>Register interest</span></a>
+      </div>
+    </article>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M4 21V9.5L12 4l8 5.5V21" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9.5 21v-6.5h5V21" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 11.5h.01M16 11.5h.01" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>Academy Apartments</span>
+    </div>
+    <nav class="footer-nav">
+      <a href="{{ url_for('apartments') }}">Apartments</a>
+      <a href="{{ url_for('index') }}#location">Location</a>
+      <a href="{{ url_for('index') }}#amenities">Amenities</a>
+      <a href="{{ url_for('index') }}#reviews">Residents</a>
+      <a href="{{ url_for('register_interest') }}">Register Interest</a>
+    </nav>
+    <p class="footer-meta">17 Warwick Road, Old Trafford, Manchester, M16 0RZ · Official accommodation partner of UA92</p>
+  </div>
+</footer>
+
+<nav class="bottom-nav" id="bottomNav" aria-label="Primary">
+  <a href="{{ url_for('index') }}#top" class="bottom-nav-item" data-target="top">
+    <svg viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1Z"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="{{ url_for('apartments') }}" class="bottom-nav-item is-active" data-target="apartments">
+    <svg viewBox="0 0 24 24"><path d="M4 21V9l8-5 8 5v12h-5v-6h-6v6Z"/></svg>
+    <span>Apartments</span>
+  </a>
+  <a href="{{ url_for('index') }}#location" class="bottom-nav-item" data-target="location">
+    <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7Zm0 9.5A2.5 2.5 0 1 0 12 6.5a2.5 2.5 0 0 0 0 5Z"/></svg>
+    <span>Location</span>
+  </a>
+  <a href="{{ url_for('register_interest') }}" class="bottom-nav-item" data-target="enquire">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16v13H7l-3 3Z"/></svg>
+    <span>Enquire</span>
+  </a>
+</nav>
+
+<script src="{{ url_for('static', filename='js/script.js') }}?v={{ asset_version }}"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{% extends 'admin/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block topbar_title %}Dashboard{% endblock %}
+{% block content %}
+
+<h1 class="admin-h1">Dashboard</h1>
+
+<div class="stat-cards">
+  <div class="stat-card">
+    <span class="stat-card-num">{{ apartment_count }}</span>
+    <span class="stat-card-label">Apartment listings</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-card-num">{{ enquiry_count }}</span>
+    <span class="stat-card-label">Total enquiries</span>
+  </div>
+  <div class="stat-card stat-card-accent">
+    <span class="stat-card-num">{{ new_enquiry_count }}</span>
+    <span class="stat-card-label">Not yet contacted</span>
+  </div>
+</div>
+
+<div class="admin-panel">
+  <div class="admin-panel-head">
+    <h2>Recent enquiries</h2>
+    <a href="{{ url_for('admin_enquiries') }}" class="text-link-admin">View all →</a>
+  </div>
+
+  {% if recent_enquiries %}
+  <table class="admin-table">
+    <thead>
+      <tr><th>Name</th><th>Apartment</th><th>Submitted</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      {% for e in recent_enquiries %}
+      <tr>
+        <td>{{ e.full_name }}</td>
+        <td>{{ e.apartment_type }}</td>
+        <td>{{ e.created_at.strftime('%d %b %Y') }}</td>
+        <td>
+          {% if e.contacted %}<span class="badge badge-done">Contacted</span>
+          {% else %}<span class="badge badge-new">New</span>{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="admin-empty">No enquiries yet.</p>
+  {% endif %}
+</div>
+
+<div class="admin-panel">
+  <div class="admin-panel-head">
+    <h2>Recent sign-in activity</h2>
+  </div>
+  {% if recent_logins %}
+  <table class="admin-table">
+    <thead>
+      <tr><th>Username</th><th>IP address</th><th>When</th><th>Result</th></tr>
+    </thead>
+    <tbody>
+      {% for login in recent_logins %}
+      <tr>
+        <td>{{ login.username }}</td>
+        <td>{{ login.ip_address or '—' }}</td>
+        <td>{{ login.created_at.strftime('%d %b %Y, %H:%M') if login.created_at else '—' }}</td>
+        <td>
+          {% if login.success %}<span class="badge badge-done">Success</span>
+          {% else %}<span class="badge badge-new">Failed</span>{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="admin-empty">No sign-in activity recorded yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Admin{% endblock %} — Academy Apartments</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}?v={{ asset_version }}">
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <span class="brand-mark">AA</span>
+      <span>Admin</span>
+    </div>
+    <nav class="admin-nav">
+      <a href="{{ url_for('admin_dashboard') }}" class="{% if request.endpoint == 'admin_dashboard' %}is-active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6V11h-6v9Zm0-16v5h6V4h-6Z"/></svg>
+        Dashboard
+      </a>
+      <a href="{{ url_for('admin_apartments') }}" class="{% if request.endpoint and request.endpoint.startswith('admin_apartment') %}is-active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M4 21V9l8-5 8 5v12h-5v-6h-6v6Z"/></svg>
+        Listings
+      </a>
+      <a href="{{ url_for('admin_enquiries') }}" class="{% if request.endpoint and request.endpoint.startswith('admin_enquiry') %}is-active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v13H7l-3 3Z"/></svg>
+        Enquiries
+      </a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <a href="{{ url_for('index') }}" target="_blank">View live site ↗</a>
+      <a href="{{ url_for('admin_logout') }}">Log out</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <span class="admin-topbar-title">{% block topbar_title %}{% endblock %}</span>
+      <div class="admin-topbar-user">
+        <span class="admin-avatar">{{ admin_username[:1] | upper }}</span>
+        <span class="admin-topbar-name">{{ admin_username }}</span>
+        <a href="{{ url_for('admin_logout') }}" class="admin-logout-btn">Log out</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="admin-flash">
+          {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+        </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+
+<nav class="admin-bottom-nav">
+  <a href="{{ url_for('admin_dashboard') }}" class="{% if request.endpoint == 'admin_dashboard' %}is-active{% endif %}">
+    <svg viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6V11h-6v9Zm0-16v5h6V4h-6Z"/></svg>
+    <span>Dashboard</span>
+  </a>
+  <a href="{{ url_for('admin_apartments') }}" class="{% if request.endpoint and request.endpoint.startswith('admin_apartment') %}is-active{% endif %}">
+    <svg viewBox="0 0 24 24"><path d="M4 21V9l8-5 8 5v12h-5v-6h-6v6Z"/></svg>
+    <span>Listings</span>
+  </a>
+  <a href="{{ url_for('admin_enquiries') }}" class="{% if request.endpoint and request.endpoint.startswith('admin_enquiry') %}is-active{% endif %}">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16v13H7l-3 3Z"/></svg>
+    <span>Enquiries</span>
+  </a>
+  <a href="{{ url_for('admin_logout') }}">
+    <svg viewBox="0 0 24 24"><path d="M16 17v-3H9v-4h7V7l5 5-5 5ZM14 2a2 2 0 0 1 2 2v2h-2V4H5v16h9v-2h2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9Z"/></svg>
+    <span>Log out</span>
+  </a>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends 'admin/base.html' %}
+{% block title %}Listings{% endblock %}
+{% block topbar_title %}Apartment listings{% endblock %}
+{% block content %}
+
+<div class="admin-panel-head admin-page-head">
+  <h1 class="admin-h1">Apartment listings</h1>
+  <a href="{{ url_for('admin_apartment_new') }}" class="btn-admin-primary">+ Add new apartment</a>
+</div>
+
+<div class="admin-panel">
+  {% if listings %}
+  <table class="admin-table">
+    <thead>
+      <tr><th>Name</th><th>Slug</th><th>Features</th><th>Image file</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for listing in listings %}
+      <tr>
+        <td>{{ listing.name }}</td>
+        <td><code>{{ listing.slug }}</code></td>
+        <td>{{ listing.features }}</td>
+        <td><code>{{ listing.image_filename }}</code></td>
+        <td class="admin-row-actions">
+          <a href="{{ url_for('admin_apartment_edit', listing_id=listing.id) }}" class="text-link-admin">Edit</a>
+          <form method="POST" action="{{ url_for('admin_apartment_delete', listing_id=listing.id) }}"
+                onsubmit="return confirm('Delete {{ listing.name }}? This can\'t be undone.');">
+            <button type="submit" class="text-link-admin text-link-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="admin-empty">No apartment listings yet — add your first one.</p>
+  {% endif %}
+</div>
+
+{% endblock %}
